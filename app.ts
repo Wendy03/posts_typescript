@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import routes from './routes';
+require('./connections');
 
 interface Request extends IncomingMessage {
   body: any;

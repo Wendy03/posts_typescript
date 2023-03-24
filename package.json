@@ -17,6 +17,7 @@
     "mongoose": "^7.0.3"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "typescript": "^5.0.2"
   }
 }
