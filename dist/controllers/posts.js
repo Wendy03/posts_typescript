@@ -25,21 +25,15 @@ const posts = {
     createPost(req, res, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let body = '';
-                req.on('data', (chunk) => {
-                    body += chunk;
+                const data = JSON.parse(body);
+                const { name, content, image, createdAt } = data;
+                const newPost = yield post_1.default.create({
+                    name,
+                    content,
+                    image,
+                    createdAt,
                 });
-                req.on('end', () => __awaiter(this, void 0, void 0, function* () {
-                    const data = JSON.parse(body);
-                    const { name, content, image, createdAt } = data;
-                    const newPost = yield post_1.default.create({
-                        name,
-                        content,
-                        image,
-                        createdAt,
-                    });
-                    (0, successHandler_1.default)(res, newPost);
-                }));
+                (0, successHandler_1.default)(res, newPost);
             }
             catch (err) {
                 (0, errorHandler_1.default)(res, '資料錯誤');
@@ -65,22 +59,16 @@ const posts = {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = (_a = req.url) === null || _a === void 0 ? void 0 : _a.split('/').pop();
-                let body = '';
-                req.on('data', (chunk) => {
-                    body += chunk;
+                const data = JSON.parse(body);
+                const { content, image, likes } = data;
+                const posts = yield post_1.default.findByIdAndUpdate(id, {
+                    $set: {
+                        content,
+                        image,
+                        likes,
+                    },
                 });
-                req.on('end', () => __awaiter(this, void 0, void 0, function* () {
-                    const data = JSON.parse(body);
-                    const { content, image, likes } = data;
-                    const posts = yield post_1.default.findByIdAndUpdate(id, {
-                        $set: {
-                            content,
-                            image,
-                            likes,
-                        },
-                    });
-                    (0, successHandler_1.default)(res, posts);
-                }));
+                (0, successHandler_1.default)(res, posts);
             }
             catch (_b) {
                 (0, errorHandler_1.default)(res, '查無此id');

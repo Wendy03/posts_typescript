@@ -14,12 +14,7 @@ const posts = {
   },
   async createPost(req: IncomingMessage, res: ServerResponse, body: string) {
     try {
-      let body = '';
-      req.on('data', (chunk) => {
-        body += chunk;
-      });
-      req.on('end', async () => {
-        const data = JSON.parse(body);
+       const data = JSON.parse(body);
         const { name, content, image, createdAt } = data;
         const newPost = await Post.create({
           name,
@@ -28,7 +23,6 @@ const posts = {
           createdAt,
         });
         successHandler(res, newPost);
-      });
     } catch (err) {
       errorHandler(res, '資料錯誤');
     }
@@ -45,12 +39,7 @@ const posts = {
   async editPost(req: IncomingMessage, res: ServerResponse, body: string) {
     try {
       const id = req.url?.split('/').pop();
-      let body = '';
-      req.on('data', (chunk) => {
-        body += chunk;
-      });
-      req.on('end', async () => {
-        const data = JSON.parse(body);
+      const data = JSON.parse(body);
         const { content, image, likes } = data;
         const posts = await Post.findByIdAndUpdate(id, {
           $set: {
@@ -60,7 +49,6 @@ const posts = {
           },
         });
         successHandler(res, posts);
-      });
     } catch {
       errorHandler(res, '查無此id');
     }
